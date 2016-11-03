@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::group(['middleware' => 'api'], function () {
+    Route::get('/', function () {
+        abort(404);
+    });
+
+    Route::get('{collection}/{number}', 'ApiController@handle');
+});

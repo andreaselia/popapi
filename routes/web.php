@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PageController@index');
+Route::get('about', 'PageController@about');
+Route::get('documentation', 'PageController@documentation');
+Route::get('documentation/{page}', 'PageController@documentationPage');
+Route::get('scrape/{collection}', 'ApiController@scrape');
