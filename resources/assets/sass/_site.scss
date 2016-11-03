@@ -1,0 +1,150 @@
+* {
+    outline: none;
+}
+
+body {
+    background: $body-bg;
+    font-family: $font-family;
+    font-weight: $font-weight;
+    color: $text-color;
+}
+
+a {
+    font-weight: 700;
+    color: #D16B5D;
+
+    &:hover, &:focus {
+        text-decoration: none;
+        color: #D16B5D;
+        outline: none;
+    }
+}
+
+.menu {
+    margin-top: -20px;
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            display: inline;
+            margin-left: 30px;
+
+            &:first-of-type {
+                margin-left: 0;
+            }
+
+            a {
+                font-family: 'Varela Round', sans-serif;
+                text-transform: uppercase;
+                text-decoration: none;
+                letter-spacing: 2px;
+                font-size: 0.7em;
+                color: #FFF;
+            }
+        }
+    }
+
+}
+
+.header {
+    background: #4F4D62;
+    padding: 40px 0;
+
+    .title {
+        font-family: 'Varela Round', sans-serif;
+        padding: 40px 0 20px;
+        font-size: 2.4em;
+        color: #FFF;
+    }
+}
+
+.nav {
+    background: #D16B5D;
+    padding: 10px 0;
+
+    .input-group {
+        .input-group-addon {
+            padding: 6px 0px 6px 12px;
+            background: #FFF;
+            border: none;
+        }
+
+        input {
+            padding: 6px 12px 6px 0px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .btn {
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            background: #B1A9A8;
+            padding: 7px 12px;
+            color: inherit;
+            border: none;
+        }
+    }
+}
+
+.content {
+    padding: 40px 0;
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Varela Round', sans-serif;
+    }
+}
+
+
+.interactive_output {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    background: #D2CECE;
+    color: inherit;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: none;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: none;
+        border-radius: 4px;
+    }
+}
+
+.inline_interactive_output {
+    @extend .interactive_output;
+    display: inline-block;
+    width: auto;
+    height: auto;
+}
+
+.footer {
+    font-family: 'Varela Round', sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 2px;
+    margin-bottom: 60px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.7em;
+
+    .red {
+        color: #D16B5D;
+    }
+}
+
+.resources {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+[v-cloak] {
+    display: none;
+}

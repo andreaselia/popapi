@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="col-md-6 col-md-offset-3 text-center">
-        <h2>503</h2>
+        <h2>404</h2>
         <p>
-            We'll be right back!
+            Page not found, <a href="{{ url('/') }}">go home</a>?
         </p>
     </div>
 @endsection
