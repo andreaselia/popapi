@@ -5805,10 +5805,11 @@ a {
 .header {
   background: #4F4D62;
   padding: 40px 0; }
-  .header .title {
+  .header .title a {
     font-family: 'Varela Round', sans-serif;
     padding: 40px 0 20px;
     font-size: 2.4em;
+    display: block;
     color: #FFF; }
 
 .nav {

@@ -54,10 +54,13 @@ a {
     padding: 40px 0;
 
     .title {
-        font-family: 'Varela Round', sans-serif;
-        padding: 40px 0 20px;
-        font-size: 2.4em;
-        color: #FFF;
+        a {
+            font-family: 'Varela Round', sans-serif;
+            padding: 40px 0 20px;
+            font-size: 2.4em;
+            display: block;
+            color: #FFF;
+        }
     }
 }
 

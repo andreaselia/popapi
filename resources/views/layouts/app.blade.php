@@ -22,7 +22,9 @@
             </div>
 
             <div class="col-md-4 col-md-offset-4 text-center">
-                <div class="title">POPAPI</div>
+                <div class="title">
+                    <a href="{{ url('/') }}">{{ config('app.name', 'POPAPI') }}</a>
+                </div>
             </div>
         </div>
 
