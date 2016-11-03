@@ -6,17 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class FileUpload extends Model
 {
-    public function upload()
+    protected $aws;
+
+    public function initalizeAws()
     {
         //
     }
 
-    public function get()
+    public function link($id)
     {
         //
     }
 
-    public function delete()
+    public function upload($input, $output)
+    {
+        //
+    }
+
+    public function delete($id)
     {
         //
     }

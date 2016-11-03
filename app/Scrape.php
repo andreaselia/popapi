@@ -2,28 +2,13 @@
 
 namespace App;
 
-use Goutte\Client;
 use Illuminate\Database\Eloquent\Model;
 
 class Scrape extends Model
 {
-    /**
-     * @var Client
-     */
-    protected $goutteClient;
-
-    /**
-     * @var string
-     */
-    protected $baseUrl;
-
-    /**
-     * @param Client $client
-     */
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->goutteClient = $client;
-        $this->baseUrl = getenv('FUNKO_URL');
+        return getenv('FUNKO_URL');
     }
 
     /**
@@ -31,6 +16,8 @@ class Scrape extends Model
      */
     public function funko($collection)
     {
+        $crawler = Goutte::request('GET', env('FUNKO_URL', 'single').'/'.$collection);
+
         //
     }
 }
