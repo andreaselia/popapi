@@ -5783,24 +5783,22 @@ a {
     color: #D16B5D;
     outline: none; }
 
-.menu {
-  margin-top: -20px; }
-  .menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0; }
-    .menu ul li {
-      display: inline;
-      margin-left: 30px; }
-      .menu ul li:first-of-type {
-        margin-left: 0; }
-      .menu ul li a {
-        font-family: 'Varela Round', sans-serif;
-        text-transform: uppercase;
-        text-decoration: none;
-        letter-spacing: 2px;
-        font-size: 0.7em;
-        color: #FFF; }
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+  .menu ul li {
+    display: inline;
+    margin-left: 30px; }
+    .menu ul li:first-of-type {
+      margin-left: 0; }
+    .menu ul li a {
+      font-family: 'Varela Round', sans-serif;
+      text-transform: uppercase;
+      text-decoration: none;
+      letter-spacing: 2px;
+      font-size: 0.7em;
+      color: #FFF; }
 
 .header {
   background: #4F4D62;
@@ -5812,18 +5810,18 @@ a {
     display: block;
     color: #FFF; }
 
-.nav {
+.api {
   background: #D16B5D;
   padding: 10px 0; }
-  .nav .input-group .input-group-addon {
+  .api .input-group .input-group-addon {
     padding: 6px 0px 6px 12px;
     background: #FFF;
     border: none; }
-  .nav .input-group input {
+  .api .input-group input {
     padding: 6px 12px 6px 0px;
     box-shadow: none;
     border: none; }
-  .nav .input-group .btn {
+  .api .input-group .btn {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     background: #B1A9A8;
     padding: 7px 12px;

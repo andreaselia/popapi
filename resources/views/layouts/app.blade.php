@@ -13,22 +13,20 @@
 
     <div class="container-fluid">
         <div class="row header">
-            <div class="container menu text-center">
+            <div class="col-md-4 col-md-offset-4 menu text-center">
                 <ul>
                     <li><a href="{{ url('/') }}">Home</a></li>
                     <li><a href="{{ url('/about') }}">About</a></li>
                     <li><a href="{{ url('/documentation') }}">Documentation</a></li>
                 </ul>
-            </div>
 
-            <div class="col-md-4 col-md-offset-4 text-center">
                 <div class="title">
                     <a href="{{ url('/') }}">{{ config('app.name', 'POPAPI') }}</a>
                 </div>
             </div>
         </div>
 
-        <div class="row nav" id="vueApiInput">
+        <div class="row api" id="vueApiInput">
             <div class="col-md-6 col-md-offset-3">
                 <div class="input-group">
                     <span class="input-group-addon">http://popapi.co/api/</span>
