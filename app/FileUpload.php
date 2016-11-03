@@ -38,8 +38,25 @@ class FileUpload extends Model
         }
     }
 
-    public function delete($id)
+    public function deleteBucket($bucket)
     {
-        //
+        $this->initalizeAws();
+
+        try {
+            $this->s3->bucket($bucket)->delete();
+        } catch (S3Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function deleteObject($object)
+    {
+        $this->initalizeAws();
+
+        try {
+            $this->s3->object($object)->delete();
+        } catch (S3Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
