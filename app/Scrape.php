@@ -16,7 +16,7 @@ class Scrape extends Model
      */
     public function funko($collection)
     {
-        $crawler = Goutte::request('GET', env('FUNKO_URL', 'single').'/'.$collection);
+        $crawler = Goutte::request('GET', env('FUNKO_POP_URL', 'single').'/'.$collection);
 
         //
     }
