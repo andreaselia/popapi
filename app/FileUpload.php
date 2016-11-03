@@ -18,11 +18,19 @@ class FileUpload extends Model
         }
     }
 
+    /**
+     * @param  integer $id
+     */
     public function link($id)
     {
         //
     }
 
+    /**
+     * @param  string $bucket
+     * @param  string $key
+     * @param  string $file
+     */
     public function upload($bucket, $key, $file)
     {
         $this->initalizeAws();
@@ -38,6 +46,9 @@ class FileUpload extends Model
         }
     }
 
+    /**
+     * @param  string $bucket
+     */
     public function deleteBucket($bucket)
     {
         $this->initalizeAws();
@@ -49,6 +60,9 @@ class FileUpload extends Model
         }
     }
 
+    /**
+     * @param  string $object
+     */
     public function deleteObject($object)
     {
         $this->initalizeAws();
