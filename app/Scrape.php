@@ -6,11 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Scrape extends Model
 {
-    public function __construct()
-    {
-        return getenv('FUNKO_URL');
-    }
-
     /**
      * @param  string $collection
      */

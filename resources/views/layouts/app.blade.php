@@ -39,9 +39,23 @@
         </div>
 
         <div class="row content" id="vueApiOutput">
-            <div class="col-md-6 col-md-offset-3 response">
-                <h2>Response</h2>
-                <pre class="interactive_output">@{{ apiResponse }}</pre>
+            @if (! isset($allowResponse))
+                <div class="col-md-6 col-md-offset-3 response">
+                    <h2>Response</h2>
+                    <pre class="interactive_output">@{{ apiResponse }}</pre>
+                </div>
+            @endif
+
+            <div class="col-md-6 col-md-offset-3">
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
 
             @yield('content')
