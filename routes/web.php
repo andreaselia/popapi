@@ -18,4 +18,3 @@ Route::get('documentation/{page}', 'PageController@documentationPage');
 Route::get('scrape/{collection}', 'TestController@scrape');
 
 Route::get('test', 'TestController@index');
-Route::post('test', 'TestController@upload');

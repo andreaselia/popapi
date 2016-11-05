@@ -12,23 +12,17 @@ $allowResponse = false;
             <p>Below are all of the items currently stored on S3...</p>
             <ul>
                 @foreach ($contents as $content)
-                    <li><a href="https://s3-eu-west-1.amazonaws.com/popapi/{{ $content['path'] }}">{{ $content['filename'] }}</a></li>
+                    <li>
+                        <strong>{{ $content['filename'] }}</strong>
+
+                        @if (isset($content['data']))
+                            @foreach ($content['data'] as $data)
+                                <ol><a href="https://s3-eu-west-1.amazonaws.com/popapi/{{ $data['path'] }}">{{ $data['path'] }}</a></ol>
+                            @endforeach
+                        @endif
+                    </li>
                 @endforeach
             </ul>
         @endif
-
-        {{ Form::open(['method' => 'POST', 'url' => 'test', 'files' => true]) }}
-
-        <div class="form-group">
-            {{ Form::label('document') }}
-            {{ Form::file('document') }}
-            <p class="help-block">File must be of image type.</p>
-        </div>
-
-        <div class="form-group">
-            {{ Form::submit('Submit', ['class' => 'btn btn-default']) }}
-        </div>
-
-        {{ Form::close() }}
     </div>
 @endsection

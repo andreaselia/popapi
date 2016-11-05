@@ -4,6 +4,7 @@ namespace App;
 
 use Uuid;
 use Goutte;
+use Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class Scrape extends Model
@@ -38,13 +39,20 @@ class Scrape extends Model
                     mkdir($collection);
                 }
 
-                if (isset($sku) && is_numeric($sku)) {
-                    file_put_contents($collection.'/'.$sku.'.jpg', $file);
+                $exists = Storage::disk('s3')
+                    ->exists($collection.'/'.$sku.'.jpg');
+
+                if (isset($sku) && is_numeric($sku) && ! $exists) {
+                    Storage::disk('s3')
+                        ->put($collection.'/'.$sku.'.jpg', $file, 'public');
 
                     return;
                 }
 
-                file_put_contents($collection.'/'.Uuid::generate(1).'_VAULTED.jpg', $file);
+                if (! $exists) {
+                    Storage::disk('s3')
+                        ->put($collection.'/'.Uuid::generate(1).'_VAULTED.jpg', $file, 'public');
+                }
             });
         }
 
