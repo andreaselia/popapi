@@ -5,7 +5,7 @@ namespace App;
 use Aws\S3\Exception\S3Exception;
 use Illuminate\Database\Eloquent\Model;
 
-class FileUpload extends Model
+class File extends Model
 {
     protected $s3;
 
