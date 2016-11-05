@@ -18,6 +18,9 @@ class TestController extends Controller
             ->with(compact('contents'));
     }
 
+    /**
+     * @param  Request $request
+     */
     public function upload(Request $request)
     {
         $this->validate($request, [
@@ -48,6 +51,10 @@ class TestController extends Controller
 
         $end = Carbon::now();
 
-        return 'Scraped '.$collection.' in '.$end->diffInMinutes($start).' minutes and '.$end->diffInSeconds($start).' seconds';
+        return sprintf(
+            'Scraped <strong>%s</strong> in <strong>%s seconds</strong>',
+            $collection,
+            $end->diffInSeconds($start)
+        );
     }
 }
