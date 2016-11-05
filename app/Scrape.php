@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Uuid;
 use Goutte;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +27,7 @@ class Scrape extends Model
                 $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection.'?page='.$i);
             }
 
-            $crawler->filter('.product-item')->each(function ($node) use ($collection) {
+            $crawler->filter('.product-item')->each(function ($node) use ($collection, $i) {
                 $url   = str_replace('//cdn', 'http://cdn', $node->filter('img')->attr('src'));
                 $file  = file_get_contents($url);
                 $name  = explode('?v=', basename($url))[0];
@@ -43,7 +44,7 @@ class Scrape extends Model
                     return;
                 }
 
-                file_put_contents($collection.'/'.time().'_VAULTED.jpg', $file);
+                file_put_contents($collection.'/'.Uuid::generate(1).'_VAULTED.jpg', $file);
             });
         }
 
