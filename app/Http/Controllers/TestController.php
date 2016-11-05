@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Storage;
 use Validator;
+use App\Scrape;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -33,5 +34,15 @@ class TestController extends Controller
         }
 
         return 'file already exists';
+    }
+
+    /**
+     * @param  string $collection
+     */
+    public function scrape($collection)
+    {
+        Scrape::funko($collection);
+
+        return 'done';
     }
 }

@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
+    /**
+     * @param  Request $request
+     * @param  string  $collection
+     * @param  integer  $number
+     */
     public function handle(Request $request, $collection, $number)
     {
         $data = Data::with(['collection' => function ($query) use ($collection) {

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Goutte;
 use Illuminate\Database\Eloquent\Model;
 
 class Scrape extends Model
@@ -9,46 +10,37 @@ class Scrape extends Model
     /**
      * @param  string $collection
      */
-    public function funko($collection)
+    public static function funko($collection)
     {
-        // $crawler = Goutte::request('GET', env('FUNKO_POP_URL', 'single').'/'.$collection);
+        // Send the initial request to the specified collection web page
+        $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection);
 
-        $crawler = Goutte::request('GET', 'https://funko.com/collections/pop-vinyl/disney');
-
-        $crawler->filter('footer .pagination')->each(function ($node) {
+        $crawler->filter('footer .pagination')->each(function ($node) use ($collection) {
             $page_count = $node->filter('li:nth-last-child(2)')->text();
 
-            $collection = Collection::firstOrCreate([
-                'slug' => 'disney',
-                'name' => 'Disney'
-            ]);
-
             for ($i = 0; $i < $page_count + 1; $i++) {
-                $newler = Goutte::request('GET', 'https://funko.com/collections/pop-vinyl/disney?page='.$i);
+                $newler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection.'?page='.$i);
 
-                $newler->filter('.product-item')->each(function ($node) {
-                    $collection = Collection::where('slug', 'disney')->first();
+                $newler->filter('.product-item')->each(function ($node) use ($collection) {
+                    $url   = str_replace('//cdn', 'http://cdn', $node->filter('img')->attr('src'));
+                    $file  = file_get_contents($url);
+                    $name  = explode('?v=', basename($url))[0];
+                    $sku   = explode('#', $node->filter('.product-sku')->text())[1];
+                    $title = trim($node->filter('.title a')->text());
 
-                    $url  = str_replace('//cdn', 'http://cdn', $node->filter('img')->attr('src'));
-                    $file = file_get_contents($url);
-                    $name = explode('?v=', basename($url))[0];
-                    $sku  = explode('#', $node->filter('.product-sku')->text())[1];
-
-                    if (! is_dir('disney')) {
-                        mkdir('disney');
+                    if (! is_dir($collection)) {
+                        mkdir($collection);
                     }
 
-                    $save = file_put_contents('disney/'.$name, $file);
-
-                    $data = Data::create([
-                        'collection_id' => $collection->id,
-                        'number'        => (isset($sku) && is_numeric($sku)) ? $sku : 0,
-                        'image'         => $name,
-                        'shop'          => NULL,
-                        'average_value' => 0,
-                    ]);
+                    if (isset($sku) && is_numeric($sku)) {
+                        file_put_contents($collection.'/'.$sku.'.jpg', $file);
+                    } else {
+                        file_put_contents($collection.'/'.time().'_VAULTED.jpg', $file);
+                    }
                 });
             }
         });
+
+        return true;
     }
 }

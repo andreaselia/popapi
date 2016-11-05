@@ -21,6 +21,9 @@ class PageController extends Controller
         return view('documentation.index');
     }
 
+    /**
+     * @param  string $page
+     */
     public function documentationPage($page)
     {
         return view('documentation.'.$page);
