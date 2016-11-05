@@ -10,7 +10,10 @@ class TestController extends Controller
 {
     public function index()
     {
-        return view('test');
+        $contents = Storage::disk('s3')->listContents();
+
+        return view('test')
+            ->with(compact('contents'));
     }
 
     public function upload(Request $request)
