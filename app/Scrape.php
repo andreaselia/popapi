@@ -15,31 +15,30 @@ class Scrape extends Model
         // Send the initial request to the specified collection web page
         $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection);
 
-        $crawler->filter('footer .pagination')->each(function ($node) use ($collection) {
-            $page_count = $node->filter('li:nth-last-child(2)')->text();
+        //
+        $pages = $crawler->filter('footer .pagination li:nth-last-child(2)')->text();
 
-            for ($i = 0; $i < $page_count + 1; $i++) {
-                $newler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection.'?page='.$i);
+        for ($i = 0; $i < $pages + 1; $i++) {
+            $newler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection.'?page='.$i);
 
-                $newler->filter('.product-item')->each(function ($node) use ($collection) {
-                    $url   = str_replace('//cdn', 'http://cdn', $node->filter('img')->attr('src'));
-                    $file  = file_get_contents($url);
-                    $name  = explode('?v=', basename($url))[0];
-                    $sku   = explode('#', $node->filter('.product-sku')->text())[1];
-                    $title = trim($node->filter('.title a')->text());
+            $newler->filter('.product-item')->each(function ($node) use ($collection) {
+                $url   = str_replace('//cdn', 'http://cdn', $node->filter('img')->attr('src'));
+                $file  = file_get_contents($url);
+                $name  = explode('?v=', basename($url))[0];
+                $sku   = explode('#', $node->filter('.product-sku')->text())[1];
+                $title = trim($node->filter('.title a')->text());
 
-                    if (! is_dir($collection)) {
-                        mkdir($collection);
-                    }
+                if (! is_dir($collection)) {
+                    mkdir($collection);
+                }
 
-                    if (isset($sku) && is_numeric($sku)) {
-                        file_put_contents($collection.'/'.$sku.'.jpg', $file);
-                    } else {
-                        file_put_contents($collection.'/'.time().'_VAULTED.jpg', $file);
-                    }
-                });
-            }
-        });
+                if (isset($sku) && is_numeric($sku)) {
+                    file_put_contents($collection.'/'.$sku.'.jpg', $file);
+                } else {
+                    file_put_contents($collection.'/'.time().'_VAULTED.jpg', $file);
+                }
+            });
+        }
 
         return true;
     }

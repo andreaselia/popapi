@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Storage;
 use Validator;
 use App\Scrape;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -41,8 +42,12 @@ class TestController extends Controller
      */
     public function scrape($collection)
     {
+        $start = Carbon::now();
+
         Scrape::funko($collection);
 
-        return 'done';
+        $end = Carbon::now();
+
+        return 'Scraped '.$collection.' in '.$end->diffInMinutes($start).' minutes and '.$end->diffInSeconds($start).' seconds';
     }
 }
