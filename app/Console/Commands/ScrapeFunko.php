@@ -19,7 +19,7 @@ class ScrapeFunko extends Command
      *
      * @var string
      */
-    protected $description = 'Run the Funko Scraper';
+    protected $description = 'Run the Scraper for Funko';
 
     /**
      * Create a new command instance.
@@ -39,19 +39,19 @@ class ScrapeFunko extends Command
     public function handle()
     {
         Scrape::funko('animation');
-        Scrape::funko('disney');
-        Scrape::funko('games');
-        Scrape::funko('heroes');
-        Scrape::funko('marvel');
-        Scrape::funko('monster-high');
-        Scrape::funko('movies');
-        Scrape::funko('pets');
-        Scrape::funko('rocks');
-        Scrape::funko('sports');
-        Scrape::funko('star-wars');
-        Scrape::funko('television');
-        Scrape::funko('the-vault');
-        Scrape::funko('the-vote');
-        Scrape::funko('ufc');
+        // Scrape::funko('disney');
+        // Scrape::funko('games');
+        // Scrape::funko('heroes');
+        // Scrape::funko('marvel');
+        // Scrape::funko('monster-high');
+        // Scrape::funko('movies');
+        // Scrape::funko('pets');
+        // Scrape::funko('rocks');
+        // Scrape::funko('sports');
+        // Scrape::funko('star-wars');
+        // Scrape::funko('television');
+        // Scrape::funko('the-vault');
+        // Scrape::funko('the-vote');
+        // Scrape::funko('ufc');
     }
 }
