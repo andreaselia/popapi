@@ -12,12 +12,15 @@ class Result extends Model
      * @var array
      */
     protected $fillable = [
-        'slug',
-        'name'
+        'collection_id',
+        'number',
+        'image',
+        'shop',
+        'average_value'
     ];
 
-    public function results()
+    public function collection()
     {
-        return $this->hasMany('App\Result', 'collection_id', 'id');
+        return $this->hasOne('App\Collection', 'id');
     }
 }

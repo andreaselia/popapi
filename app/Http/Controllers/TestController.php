@@ -16,13 +16,11 @@ class TestController extends Controller
 
         foreach ($contents as $key => $content) {
             if ($content['type'] == 'dir') {
-                $contents[$key]['data'] = Storage::disk('s3')
-                    ->listContents($content['path']);
+                $contents[$key]['data'] = Storage::disk('s3')->listContents($content['path']);
             }
         }
 
-        return view('test')
-            ->with(compact('contents'));
+        return view('test')->with(compact('contents'));
     }
 
     /**

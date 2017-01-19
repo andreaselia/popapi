@@ -39,19 +39,16 @@ class Scrape extends Model
                     mkdir($collection);
                 }
 
-                $exists = Storage::disk('s3')
-                    ->exists($collection.'/'.$sku.'.jpg');
+                $exists = Storage::disk('s3')->exists($collection.'/'.$sku.'.jpg');
 
                 if (isset($sku) && is_numeric($sku) && ! $exists) {
-                    Storage::disk('s3')
-                        ->put($collection.'/'.$sku.'.jpg', $file, 'public');
+                    Storage::disk('s3')->put($collection.'/'.$sku.'.jpg', $file, 'public');
 
                     return;
                 }
 
                 if (! $exists) {
-                    Storage::disk('s3')
-                        ->put($collection.'/'.Uuid::generate(1).'_VAULTED.jpg', $file, 'public');
+                    Storage::disk('s3')->put($collection.'/'.Uuid::generate(1).'_VAULTED.jpg', $file, 'public');
                 }
             });
         }

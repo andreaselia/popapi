@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Result;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
@@ -13,25 +14,19 @@ class ApiController extends Controller
      */
     public function handle(Request $request, $collection, $number)
     {
-        $data = Data::with(['collection' => function ($query) use ($collection) {
+        $data = Result::with(['collection' => function ($query) use ($collection) {
             $query->where('slug', $collection);
         }])->where('number', $number)->first();
 
-        if (! $data) {
-            return Response::json([
-                'response' => 'error'
+        if ($data) {
+            return response()->json([
+                'response' => 'success',
+                'data' => $data
             ]);
         }
 
-        if (! $data['collection']) {
-            return Response::json([
-                'response' => 'error'
-            ]);
-        }
-
-        return Response::json([
-            'response' => 'success',
-            'data' => $data
+        return response()->json([
+            'response' => 'error'
         ]);
     }
 }

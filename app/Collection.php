@@ -12,15 +12,12 @@ class Collection extends Model
      * @var array
      */
     protected $fillable = [
-        'collection_id',
-        'number',
-        'image',
-        'shop',
-        'average_value',
+        'slug',
+        'name'
     ];
 
-    public function collection()
+    public function results()
     {
-        return $this->hasOne('App\Collection', 'id');
+        return $this->hasMany('App\Result', 'collection_id', 'id');
     }
 }
