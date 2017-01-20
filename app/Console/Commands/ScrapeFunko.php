@@ -23,6 +23,24 @@ class ScrapeFunko extends Command
      */
     protected $description = 'Run the Scraper for Funko';
 
+    protected $collections = [
+        'animation',
+        'disney',
+        'games',
+        'heroes',
+        'marvel',
+        'monster-high',
+        'movies',
+        'pets',
+        'rocks',
+        'sports',
+        'star-wars',
+        'television',
+        'the-vault',
+        'the-vote',
+        'ufc',
+    ];
+
     /**
      * Create a new command instance.
      *
@@ -40,23 +58,11 @@ class ScrapeFunko extends Command
      */
     public function handle()
     {
-        $this->scrape('animation');
-        // $this->scrape('disney');
-        // $this->scrape('games');
-        // $this->scrape('heroes');
-        // $this->scrape('marvel');
-        // $this->scrape('monster-high');
-        // $this->scrape('movies');
-        // $this->scrape('pets');
-        // $this->scrape('rocks');
-        // $this->scrape('sports');
-        // $this->scrape('star-wars');
-        // $this->scrape('television');
-        // $this->scrape('the-vault');
-        // $this->scrape('the-vote');
-        // $this->scrape('ufc');
+        foreach ($collections as $collection) {
+            $this->scrape($collection);
+        }
     }
-    
+
     /**
      * @param  string $collection
      *
