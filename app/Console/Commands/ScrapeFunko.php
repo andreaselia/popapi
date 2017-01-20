@@ -59,6 +59,8 @@ class ScrapeFunko extends Command
     
     /**
      * @param  string $collection
+     *
+     * @return boolean
      */
     public static function scrape($collection)
     {
