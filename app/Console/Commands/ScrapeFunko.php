@@ -21,8 +21,13 @@ class ScrapeFunko extends Command
      *
      * @var string
      */
-    protected $description = 'Run the Scraper for Funko';
+    protected $description = 'Funko POP! Vinyl Scraper';
 
+    /**
+     * The collections to be scraped.
+     *
+     * @var array
+     */
     protected $collections = [
         'animation',
         'disney',
@@ -58,22 +63,21 @@ class ScrapeFunko extends Command
      */
     public function handle()
     {
-        foreach ($collections as $collection) {
+        foreach ($this->collections as $collection) {
             $this->scrape($collection);
         }
     }
 
     /**
-     * @param  string $collection
+     * For scraping data for the specified collection.
      *
+     * @param  string $collection
      * @return boolean
      */
     public static function scrape($collection)
     {
-        // Send the initial request to the specified collection web page
         $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection);
 
-        // Get the page count for the specified collection
         $pages = $crawler->filter('footer .pagination li')->count() > 0
             ? $crawler->filter('footer .pagination li:nth-last-child(2)')->text()
             : 0
