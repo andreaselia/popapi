@@ -6,6 +6,7 @@ use Uuid;
 use Goutte;
 use Storage;
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class ScrapeFunko extends Command
 {
@@ -63,9 +64,15 @@ class ScrapeFunko extends Command
      */
     public function handle()
     {
+        $bar = $this->output->createProgressBar(count($this->collections));
+
         foreach ($this->collections as $collection) {
             $this->scrape($collection);
+
+            $bar->advance();
         }
+
+        $bar->finish();
     }
 
     /**
