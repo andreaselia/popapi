@@ -16,7 +16,6 @@
             <div class="col-md-4 col-md-offset-4 menu text-center">
                 <ul>
                     <li><a href="{{ url('/') }}">Home</a></li>
-                    <li><a href="{{ url('/about') }}">About</a></li>
                     <li><a href="{{ url('/documentation') }}">Documentation</a></li>
                 </ul>
 

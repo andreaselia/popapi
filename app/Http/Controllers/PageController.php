@@ -6,23 +6,31 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+    /**
+     * [index description]
+     *
+     * @return [type]
+     */
     public function index()
     {
         return view('home');
     }
 
-    public function about()
-    {
-        return view('about');
-    }
-
+    /**
+     * [documentation description]
+     *
+     * @return [type]
+     */
     public function documentation()
     {
         return view('documentation.index');
     }
 
     /**
+     * [documentationPage description]
+     *
      * @param  string $page
+     * @return [type]
      */
     public function documentationPage($page)
     {

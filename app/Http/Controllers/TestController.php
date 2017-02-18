@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+    /**
+     * [index description]
+     *
+     * @return [type]
+     */
     public function index()
     {
         $contents = Storage::disk('s3')->listContents();
@@ -24,7 +29,10 @@ class TestController extends Controller
     }
 
     /**
+     * [scrape description]
+     *
      * @param  string $collection
+     * @return [type]
      */
     public function scrape($collection)
     {

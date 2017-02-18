@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 class ApiController extends Controller
 {
     /**
+     * [handle description]
+     *
      * @param  Request $request
      * @param  string  $collection
      * @param  integer  $number
+     * @return [type]
      */
     public function handle(Request $request, $collection, $number)
     {
