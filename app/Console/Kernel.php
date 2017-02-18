@@ -25,8 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('scrape:funko')
-            ->monthly();
+        $schedule->command('scrape:funko')->daily();
     }
 
     /**
