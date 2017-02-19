@@ -8,17 +8,9 @@ use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
-    /**
-     * [collections description]
-     *
-     * @param  Request $request
-     * @param  string  $collection
-     * @return [type]
-     */
-    public function collections(Request $request, $collection)
+    public function collections(Request $request)
     {
-        $data = Collection::where('slug', $collection)
-            ->paginate(10);
+        $data = Collection::all();
 
         if ($data) {
             return response()->json([
@@ -32,19 +24,47 @@ class ApiController extends Controller
         ]);
     }
 
-    /**
-     * [results description]
-     *
-     * @param  Request $request
-     * @param  string  $collection
-     * @param  integer  $number
-     * @return [type]
-     */
-    public function results(Request $request, $collection, $number)
+    public function collection(Request $request, $collection, $page = 1)
+    {
+        $data = Collection::where('slug', $collection)
+            ->with(['results' => function ($query) use ($page) {
+                $query->offset(($page - 1) * 10)->take(10);
+            }])
+            ->get();
+
+        if ($data) {
+            return response()->json([
+                'response' => 'success',
+                'data' => $data
+            ]);
+        }
+
+        return response()->json([
+            'response' => 'error'
+        ]);
+    }
+
+    public function results(Request $request)
+    {
+        $data = Result::all();
+
+        if ($data) {
+            return response()->json([
+                'response' => 'success',
+                'data' => $data
+            ]);
+        }
+
+        return response()->json([
+            'response' => 'error'
+        ]);
+    }
+
+    public function result(Request $request, $collection, $sku, $page = 1)
     {
         $data = Result::with(['collection' => function ($query) use ($collection) {
             $query->where('slug', $collection);
-        }])->where('number', $number)->first();
+        }])->where('sku', $sku)->first();
 
         if ($data) {
             return response()->json([

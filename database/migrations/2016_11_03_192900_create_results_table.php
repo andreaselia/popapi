@@ -18,7 +18,7 @@ class CreateResultsTable extends Migration
             $table->integer('collection_id');
             $table->string('name');
             $table->string('slug');
-            $table->integer('sku');
+            $table->string('sku');
             $table->string('image');
             $table->string('url');
             $table->timestamps();

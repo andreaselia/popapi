@@ -18,6 +18,13 @@ Route::group(['middleware' => 'api'], function () {
         abort(404);
     });
 
-    Route::get('{collection}', 'ApiController@collections');
-    Route::get('{collection}/{number}', 'ApiController@results');
+    Route::group(['prefix' => 'collections'], function () {
+        Route::get('/', 'ApiController@collections');
+        Route::get('{collection}/{page?}', 'ApiController@collection');
+    });
+
+    Route::group(['prefix' => 'results'], function () {
+        Route::get('/', 'ApiController@results');
+        Route::get('{collection}/{sku}/{page?}', 'ApiController@result');
+    });
 });
