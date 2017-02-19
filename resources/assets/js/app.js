@@ -4,7 +4,7 @@ require('./bootstrap');
 var vueApiInput = new Vue({
     el: '#vueApiInput',
     data: {
-        userInput: 'marvel/5920',
+        userInput: 'results/marvel/5920',
         failInput: false
     },
     mounted: function () {
@@ -18,8 +18,8 @@ var vueApiInput = new Vue({
         },
 
         getAPI: function() {
-            this.$http.get('http://dev.popapi.co/api/'+((this.userInput == '') ? 'marvel/5920' : this.userInput)+'?format=json').then(function (response) {
-                vueApiOutput.apiResponse = JSON.stringify(response, undefined, 2)
+            this.$http.get('/'+((this.userInput == '') ? '/results/marvel/5920' : this.userInput)+'?format=json').then(function (response) {
+                vueApiOutput.apiResponse = JSON.stringify(response.body, undefined, 2)
             });
 
         }

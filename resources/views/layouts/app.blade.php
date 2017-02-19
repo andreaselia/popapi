@@ -28,8 +28,8 @@
         <div class="row api" id="vueApiInput">
             <div class="col-md-6 col-md-offset-3">
                 <div class="input-group">
-                    <span class="input-group-addon">http://popapi.co/api/</span>
-                    <input v-model="userInput" v-on:change="checkFail" type="text" id="interactive" class="form-control" placeholder="star-wars/1/">
+                    <span class="input-group-addon">http://popapi.co/</span>
+                    <input v-model="userInput" v-on:change="checkFail" v-on:keyup.enter="getAPI" type="text" id="interactive" class="form-control" placeholder="results/marvel/5920">
                     <span class="input-group-btn">
                         <button class="btn btn-primary" v-on:click="getAPI">GET</button>
                     </span>

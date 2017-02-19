@@ -9,14 +9,13 @@
             <li><a href="#">Introduction</a></li>
             <li><a href="#">Pagination</a></li>
             <li><a href="#">Rate Limiting</a></li>
-            <li><a href="#">Caching</a></li>
-            <li><a href="#">Versioning</a></li>
         </ul>
 
         <h3>Resources</h3>
         <ul class="resources">
-            <li><a href="#">Root</a></li>
+            <li><a href="#">Results</a></li>
             <li><a href="#">Collections</a></li>
+            <li><a href="#">Examples</a></li>
         </ul>
     </div>
     <div class="col-md-4 col-md-offset-1">
@@ -41,7 +40,6 @@
             <ul>
                 <li><strong>Collections:</strong> {{ $stats['collections'] }}</li>
                 <li><strong>Results:</strong> {{ $stats['results'] }}</li>
-                <li><strong>Request Combinations:</strong> {{ $stats['combinations'] }}</li>
             </ul>
         </p>
         @endif

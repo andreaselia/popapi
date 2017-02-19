@@ -14,10 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'api'], function () {
-    Route::get('/', function () {
-        abort(404);
-    });
-
     Route::group(['prefix' => 'collections'], function () {
         Route::get('/', 'ApiController@collections');
         Route::get('{collection}/{page?}', 'ApiController@collection');

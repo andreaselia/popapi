@@ -102,6 +102,8 @@ a {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     background: #D2CECE;
     color: inherit;
+    max-height: 300px;
+    overflow: scroll;
 
     &::-webkit-scrollbar {
         width: 6px;

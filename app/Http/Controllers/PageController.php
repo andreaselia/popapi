@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Result;
+use App\Collection;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -24,9 +26,8 @@ class PageController extends Controller
     public function documentation()
     {
         $stats = [
-            'collections'  => \App\Collection::count(),
-            'results'      => \App\Result::count(),
-            'combinations' => 'N/A',
+            'collections'  => Collection::count(),
+            'results'      => Result::count(),
         ];
 
         return view('documentation.index')->with(compact('stats'));
