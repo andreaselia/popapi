@@ -16,7 +16,7 @@ class Result extends Model
         'number',
         'image',
         'shop',
-        'average_value'
+        'average_value',
     ];
 
     public function collection()

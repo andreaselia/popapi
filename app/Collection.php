@@ -13,7 +13,7 @@ class Collection extends Model
      */
     protected $fillable = [
         'slug',
-        'name'
+        'name',
     ];
 
     public function results()
