@@ -15,9 +15,10 @@ class CreateCollectionsTable extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('slug');
             $table->string('name');
+            $table->string('slug');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

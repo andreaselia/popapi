@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Uuid;
 use Goutte;
 use Storage;
+use App\Result;
+use App\Collection;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -15,7 +17,7 @@ class ScrapeFunko extends Command
      *
      * @var string
      */
-    protected $signature = 'scrape:funko';
+    protected $signature = 'scrape:funko {--reset}';
 
     /**
      * The console command description.
@@ -30,20 +32,20 @@ class ScrapeFunko extends Command
      * @var array
      */
     protected $collections = [
-        'animation',
-        'disney',
-        'games',
-        'heroes',
-        'marvel',
-        'monster-high',
-        'movies',
-        'pets',
-        'rocks',
-        'sports',
-        'star-wars',
-        'television',
-        'the-vault',
-        'the-vote',
+        // 'animation',
+        // 'disney',
+        // 'games',
+        // 'heroes',
+        // 'marvel',
+        // 'monster-high',
+        // 'movies',
+        // 'pets',
+        // 'rocks',
+        // 'sports',
+        // 'star-wars',
+        // 'television',
+        // 'the-vault',
+        // 'the-vote',
         'ufc',
     ];
 
@@ -64,15 +66,17 @@ class ScrapeFunko extends Command
      */
     public function handle()
     {
+        if ($this->option('reset')) {
+            Collection::truncate();
+
+            Result::truncate();
+        }
+
         $bar = $this->output->createProgressBar(count($this->collections));
 
         foreach ($this->collections as $collection) {
-            if ($this->scrape($collection)) {
+            if ($this->scrape($collection, $this->option('reset'))) {
                 $bar->advance();
-
-                $bar->info('Collection '. $collection.' scraped');
-            } else {
-                $bar->error('Unable to scrape for collection '. $collection);
             }
         }
 
@@ -85,62 +89,77 @@ class ScrapeFunko extends Command
      * @param  string $collection
      * @return boolean
      */
-    public static function scrape($collection)
+    public static function scrape($collection, $reset)
     {
-        $storeCollection = App\Collection::firstOrCreate([
-            'slug',
-            'name'
+        $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection);
+
+        $collection_name = $crawler->filter('.breadcrumbs.colored-links li:last-child')->text();
+
+        $collection = Collection::firstOrCreate([
+            'name' => $collection_name,
+            'slug' => $collection,
         ]);
 
-        if ($storeCollection) {
-            $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection);
+        $pages = $crawler->filter('footer .pagination li')->count() > 0
+            ? $crawler->filter('footer .pagination li:nth-last-child(2)')->text()
+            : 0
+        ;
 
-            $pages = $crawler->filter('footer .pagination li')->count() > 0
-                ? $crawler->filter('footer .pagination li:nth-last-child(2)')->text()
-                : 0
-            ;
-
-            for ($i = 0; $i < $pages + 1; $i++) {
-                if ($i != 0) {
-                    $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection.'?page='.$i);
-                }
-
-                $crawler->filter('.product-item')->each(function ($node) use ($collection, $i) {
-                    $url   = str_replace('//cdn', 'http://cdn', $node->filter('img')->attr('src'));
-                    $file  = file_get_contents($url);
-                    $name  = explode('?v=', basename($url))[0];
-                    $sku   = explode('#', $node->filter('.product-sku')->text())[1];
-                    $title = trim($node->filter('.title a')->text());
-
-                    $storeResult = App\Result::firstOrCreate([
-                        'collection_id',
-                        'number',
-                        'image',
-                        'shop',
-                        'average_value'
-                    ]);
-
-                    if (! is_dir($collection)) {
-                        mkdir($collection);
-                    }
-
-                    $exists = Storage::disk('s3')->exists($collection.'/'.$sku.'.jpg');
-
-                    if (isset($sku) && is_numeric($sku) && ! $exists) {
-                        Storage::disk('s3')->put($collection.'/'.$sku.'.jpg', $file, 'public');
-
-                        return;
-                    }
-
-                    if (! $exists) {
-                        Storage::disk('s3')->put($collection.'/'.Uuid::generate(1).'_VAULTED.jpg', $file, 'public');
-                    }
-                });
+        for ($i = 0; $i < $pages + 1; $i++) {
+            if ($i != 0) {
+                $crawler = Goutte::request('GET', env('FUNKO_POP_URL').'/'.$collection->slug.'?page='.$i);
             }
 
-            return true;
+            $crawler->filter('.product-item')->each(function ($node) use ($collection, $reset, $i) {
+                $url   = str_replace('//cdn', 'http://cdn', $node->filter('img')->attr('src'));
+                $file  = file_get_contents($url);
+                $sku   = explode('#', $node->filter('.product-sku')->text())[1];
+                $name  = trim($node->filter('.title a')->text());
+                $slug  = explode('/', trim($node->filter('.title a')->attr('href')));
+                $slug  = $slug[count($slug) - 1];
+                $url   = urlencode(env('FUNKO_POP_URL').'/products/'.$slug);
+
+                if (! is_dir($collection->slug)) {
+                    mkdir($collection->slug);
+                }
+
+                $exists = Storage::disk('s3')->exists($collection->slug.'/'.$sku.'.jpg');
+
+                if ($reset || (isset($sku) && is_numeric($sku) && ! $exists)) {
+                    Storage::disk('s3')->put($collection->slug.'/'.$sku.'.jpg', $file, 'public');
+
+                    $s3 = urlencode(
+                        'https://s3-'.env('S3_REGION').'.amazonaws.com/'.env('S3_BUCKET').'/'.$collection->slug.'/'.$sku.'.jpg'
+                    );
+
+                    $result = Result::firstOrCreate([
+                        'collection_id' => $collection->id,
+                        'name'          => $name,
+                        'slug'          => $slug,
+                        'sku'           => $sku,
+                        'image'         => $s3,
+                        'url'           => $url,
+                    ]);
+
+                    return;
+                }
+
+                if ($reset || ! $exists) {
+                    Storage::disk('s3')->put($collection->slug.'/'.Uuid::generate(1).'_VAULTED.jpg', $file, 'public');
+
+                    $s3 = urlencode(
+                        'https://s3-'.env('S3_REGION').'.amazonaws.com/'.env('S3_BUCKET').'/'.$collection->slug.'/'.Uuid::generate(1).'_VAULTED.jpg'
+                    );
+
+                    $result = Result::firstOrCreate([
+                        'collection_id' => $collection->id,
+                        'sku'           => $sku,
+                        'image'         => $s3,
+                    ]);
+                }
+            });
         }
 
-        return false;
+        return true;
     }
 }

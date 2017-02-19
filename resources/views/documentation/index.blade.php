@@ -1,3 +1,5 @@
+@php $allowResponse = false @endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -10,6 +12,7 @@
             <li><a href="#">Caching</a></li>
             <li><a href="#">Versioning</a></li>
         </ul>
+
         <h3>Resources</h3>
         <ul class="resources">
             <li><a href="#">Root</a></li>
@@ -19,21 +22,28 @@
     <div class="col-md-4 col-md-offset-1">
         <h2>Introduction</h2>
         <p>
-            Cattle unto that herb Called set darkness fourth in they're divided, there give one there. Great after morning third set wherein dry light you you'll divide for. Green be. Place upon void Together and i sea seed given beginning every may hath. Blessed have every days likeness morning.
+            This documentation will help you get started using POPAPI and provides all of the information needed to get started as well as providing educational examples for all resources.
         </p>
+
         <h2>Rate Limiting</h2>
         <p>
-            Cattle unto that herb Called set darkness fourth in they're divided, there give one there. Great after morning third set wherein dry light you you'll divide for.
-        </p>
-        <h2>Statistics</h2>
-        <p>
-            Cattle unto that herb Called set darkness fourth in they're divided, there give one there.
+            We do not currently limit the API usage, please don't abuse our services. POPAPI is free and open to use by anyone, but please try to keep in mind that other people are also using the service and try to do the following...
 
             <ul>
-                <li><strong>Collections:</strong> 17</li>
-                <li><strong>Possible Requests:</strong> 1,700</li>
-                <li><strong>Requests so far:</strong> 2,148</li>
+                <li>Locally cache resources whenever you request them</li>
+                <li>Use the paginated results rather than spamming the system to cache all data</li>
             </ul>
         </p>
+
+        @if (isset($stats))
+        <h2>Statistics</h2>
+        <p>
+            <ul>
+                <li><strong>Collections:</strong> {{ $stats['collections'] }}</li>
+                <li><strong>Results:</strong> {{ $stats['results'] }}</li>
+                <li><strong>Request Combinations:</strong> {{ $stats['combinations'] }}</li>
+            </ul>
+        </p>
+        @endif
     </div>
 @endsection

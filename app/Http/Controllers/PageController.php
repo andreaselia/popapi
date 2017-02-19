@@ -23,7 +23,13 @@ class PageController extends Controller
      */
     public function documentation()
     {
-        return view('documentation.index');
+        $stats = [
+            'collections'  => \App\Collection::count(),
+            'results'      => \App\Result::count(),
+            'combinations' => 'N/A',
+        ];
+
+        return view('documentation.index')->with(compact('stats'));
     }
 
     /**

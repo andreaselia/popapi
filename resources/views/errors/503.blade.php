@@ -1,3 +1,5 @@
+@php $allowResponse = false @endphp
+
 @extends('layouts.app')
 
 @section('content')

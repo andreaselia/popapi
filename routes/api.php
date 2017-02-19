@@ -18,5 +18,6 @@ Route::group(['middleware' => 'api'], function () {
         abort(404);
     });
 
-    Route::get('{collection}/{number}', 'ApiController@handle');
+    Route::get('{collection}', 'ApiController@collections');
+    Route::get('{collection}/{number}', 'ApiController@results');
 });

@@ -1,8 +1,6 @@
-@extends('layouts.app')
+@php $allowResponse = false @endphp
 
-@php
-$allowResponse = false;
-@endphp
+@extends('layouts.app')
 
 @section('content')
     <div class="col-md-6 col-md-offset-3">

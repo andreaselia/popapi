@@ -16,11 +16,13 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('collection_id');
-            $table->integer('number');
-            $table->string('image')->nullable();
-            $table->string('shop')->nullable();
-            $table->double('average_value')->nullable();
+            $table->string('name');
+            $table->string('slug');
+            $table->integer('sku');
+            $table->string('image');
+            $table->string('url');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

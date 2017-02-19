@@ -13,10 +13,11 @@ class Result extends Model
      */
     protected $fillable = [
         'collection_id',
-        'number',
+        'name',
+        'slug',
+        'sku',
         'image',
-        'shop',
-        'average_value',
+        'url',
     ];
 
     public function collection()

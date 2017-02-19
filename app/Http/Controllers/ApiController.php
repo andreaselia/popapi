@@ -3,19 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Result;
+use App\Collection;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
     /**
-     * [handle description]
+     * [collections description]
+     *
+     * @param  Request $request
+     * @param  string  $collection
+     * @return [type]
+     */
+    public function collections(Request $request, $collection)
+    {
+        $data = Collection::where('slug', $collection)
+            ->paginate(10);
+
+        if ($data) {
+            return response()->json([
+                'response' => 'success',
+                'data' => $data
+            ]);
+        }
+
+        return response()->json([
+            'response' => 'error'
+        ]);
+    }
+
+    /**
+     * [results description]
      *
      * @param  Request $request
      * @param  string  $collection
      * @param  integer  $number
      * @return [type]
      */
-    public function handle(Request $request, $collection, $number)
+    public function results(Request $request, $collection, $number)
     {
         $data = Result::with(['collection' => function ($query) use ($collection) {
             $query->where('slug', $collection);

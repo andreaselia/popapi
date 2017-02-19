@@ -38,7 +38,7 @@
         </div>
 
         <div class="row content" id="vueApiOutput">
-            @if (! isset($allowResponse))
+            @if (! isset($allowResponse) || (isset($allowResponse) && $allowResponse))
                 <div class="col-md-6 col-md-offset-3 response">
                     <h2>Response</h2>
                     <pre class="interactive_output">@{{ apiResponse }}</pre>
