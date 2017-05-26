@@ -119,10 +119,6 @@ class ScrapeFunko extends Command
                 $slug  = $slug[count($slug) - 1];
                 $url   = urlencode(env('FUNKO_POP_URL').'/products/'.$slug);
 
-                if (! is_dir($collection->slug)) {
-                    mkdir($collection->slug);
-                }
-
                 $exists = Storage::disk('s3')->exists($collection->slug.'/'.$sku.'.jpg');
 
                 if ($reset || (isset($sku) && is_numeric($sku) && ! $exists)) {
