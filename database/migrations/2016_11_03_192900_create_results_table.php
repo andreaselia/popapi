@@ -33,6 +33,6 @@ class CreateResultsTable extends Migration
      */
     public function down()
     {
-        Schema::create('results');
+        Schema::dropIfExists('results');
     }
 }
